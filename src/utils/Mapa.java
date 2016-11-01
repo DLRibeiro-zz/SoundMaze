@@ -2,6 +2,7 @@ package utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Mapa {
@@ -24,6 +25,7 @@ public class Mapa {
 		this.larguraTabuleiro = fm.larguraMapa;
 		this.tabuleiro = new Objetos[alturaTabuleiro][larguraTabuleiro];
 		montarTabuleiro(retas);
+		iniciaJogo();
 	}
 	
 	public void montarTabuleiro(ArrayList<Reta> retas){
@@ -51,11 +53,29 @@ public class Mapa {
 		}	
 	}
 	
-	public void printaRetas(){
-		for (Reta reta : retas) {
-			System.out.println(reta.toString());
+	public void iniciaJogo(){
+		Random random = new Random();
+		Boolean b = false;
+		while(!b){
+			int xBoneco = random.nextInt(this.alturaTabuleiro);
+			int yBoneco = random.nextInt(this.larguraTabuleiro);
+			if(tabuleiro[xBoneco][yBoneco] instanceof Parede == false){
+				tabuleiro[xBoneco][yBoneco] = new Boneco (new Ponto(xBoneco, yBoneco));
+				b = true;
+			}
+		}
+		b = false;
+		while(!b){
+			int xFonte = random.nextInt(this.alturaTabuleiro);
+			int yFonte = random.nextInt(this.larguraTabuleiro);
+			if(tabuleiro[xFonte][yFonte] instanceof Parede == false && 
+					tabuleiro[xFonte][yFonte] instanceof Boneco == false){
+				tabuleiro[xFonte][yFonte] = new Fonte (new Ponto(xFonte, yFonte));
+				b = true;
+			}
 		}
 	}
+	
 
 	
 	public void printaTudo(){
@@ -64,8 +84,14 @@ public class Mapa {
 				if(tabuleiro[i][j] instanceof Parede){
 					System.out.print(((Parede)tabuleiro[i][j]).toString());
 					System.out.print(" ");
-				} else {
+				} else if(tabuleiro[i][j] instanceof Chao) {
 					System.out.print(((Chao)tabuleiro[i][j]).toString());
+					System.out.print(" ");
+				} else if(tabuleiro[i][j] instanceof Boneco){
+					System.out.print(((Boneco)tabuleiro[i][j]).toString());
+					System.out.print(" ");
+				} else if(tabuleiro[i][j] instanceof Fonte){
+					System.out.print(((Fonte)tabuleiro[i][j]).toString());
 					System.out.print(" ");
 				}
 				

@@ -7,4 +7,7 @@ public class Fonte extends Objetos{
 		// TODO Auto-generated constructor stub
 	}
 
+	public String toString(){
+		return "F";
+	}
 }

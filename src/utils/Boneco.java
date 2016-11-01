@@ -6,5 +6,9 @@ public class Boneco extends Objetos{
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public String toString(){
+		return "B";
+	}
 
 }
