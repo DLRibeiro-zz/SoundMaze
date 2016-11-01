@@ -18,25 +18,25 @@ import org.lwjgl.util.WaveData;
  
 public class SoundSource {
   /** Buffers hold sound data. */
-  IntBuffer buffer = BufferUtils.createIntBuffer(1);
+  private IntBuffer buffer = BufferUtils.createIntBuffer(1);
  
   /** Sources are points emitting sound. */
-  IntBuffer source = BufferUtils.createIntBuffer(1);
+  private IntBuffer source = BufferUtils.createIntBuffer(1);
  
   /** Position of the source sound. */
-  FloatBuffer sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  private FloatBuffer sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
  
   /** Velocity of the source sound. */
-  FloatBuffer sourceVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  private FloatBuffer sourceVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
  
   /** Position of the listener. */
-  FloatBuffer listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  private FloatBuffer listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1.0f, 1.0f, 1.0f }).rewind();
  
   /** Velocity of the listener. */
-  FloatBuffer listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  private FloatBuffer listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
  
   /** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
-  FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
+  private FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
  
   /**
   * boolean LoadALData()
@@ -49,7 +49,7 @@ public class SoundSource {
   int loadALData() throws FileNotFoundException {
     // Load wav data into a buffer.
     AL10.alGenBuffers(buffer);
- 
+   
     if(AL10.alGetError() != AL10.AL_NO_ERROR)
       return AL10.AL_FALSE;
  
@@ -136,12 +136,32 @@ public class SoundSource {
       return;
     }
     AL10.alGetError();
- 
+    /** Buffers hold sound data. */
+    buffer = BufferUtils.createIntBuffer(1);
+  
+   /** Sources are points emitting sound. */
+   source = BufferUtils.createIntBuffer(1);
+  
+   /** Position of the source sound. */
+    sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  
+   /** Velocity of the source sound. */
+   sourceVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  
+   /** Position of the listener. */
+    listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1.0f, 1.0f, 1.0f }).rewind();
+  
+   /** Velocity of the listener. */
+   listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+  
+   /** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
+    listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
     // Load the wav data.
     if(loadALData() == AL10.AL_FALSE) {
       System.out.println("Error loading data.");
       return;
     }
+    
  
     setListenerValues();
  
@@ -171,6 +191,14 @@ public class SoundSource {
  
         // Pressing 'h' will pause the sample.
         case 'h': AL10.alSourcePause(source.get(0)); break;
+        
+        case 'w': 
+        	listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1000.0f, 1000.0f, 1000.0f }).rewind();
+        	setListenerValues();
+        	loadALData();
+        	break;
+        	
+        
       };
     }
     killALData();
