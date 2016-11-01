@@ -28,4 +28,7 @@ public class Reta {
 		return ((p.getX()*a) + (p.getY()*b) + c == 0);
 	}
 	
+	public String toString(){
+		return "p1 = " + p1.toString() + ", p2 = " + p2.toString();
+	}
 }

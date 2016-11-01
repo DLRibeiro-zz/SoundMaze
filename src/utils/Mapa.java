@@ -1,22 +1,18 @@
 package utils;
 
 public class Mapa {
-
-	private Reta[] retas;
+	String path;
+	private ArrayList<Reta> retas;
 	
-	public Mapa (int i){
-		retas = new Reta[i];
+	public Mapa (String path){
+		this.path = path;
+		this.retas = new ArrayList<Reta>();
 	}
-
-	public Reta[] getRetas() {
-		return retas;
+	public void setRetas (ArrayList<Reta> r){
+		this.retas = r;
 	}
-
-	public void setRetas(Reta[] retas) {
-		this.retas = retas;
-	}
-	
 	public void criarMapa(){
-		//chamar a classe que Arthur esta implementado
+		FazerMapa fm = new FazerMapa(path);
+		this.retas = fm.retas;
 	}
 }
