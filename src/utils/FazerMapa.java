@@ -1,7 +1,6 @@
 package utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,15 +11,24 @@ public class FazerMapa {
 	StringTokenizer st;
 	ArrayList<Reta> retas;
 	int qtdRetas;
-	
+	int alturaMapa;
+	int larguraMapa;
 	public FazerMapa(String caminho) throws IOException{
+		this.retas = new ArrayList<Reta>();
 		this.content = readFile(caminho);
 		this.st = new StringTokenizer(this.content);
 		this.qtdRetas = Integer.parseInt(st.nextToken());
+		this.alturaMapa = Integer.parseInt(st.nextToken());
+		this.larguraMapa = Integer.parseInt(st.nextToken());
 		for(int i = 0; i < qtdRetas; i++){
-			Ponto p1 = new Ponto(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
-			Ponto p2 = new Ponto(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
-			retas.add(new Reta(p1, p2));
+			int p1x = Integer.parseInt(st.nextToken());
+			int p1y = Integer.parseInt(st.nextToken());
+			Ponto p1 = new Ponto(p1x, p1y);
+			int p2x = Integer.parseInt(st.nextToken());
+			int p2y = Integer.parseInt(st.nextToken());
+			Ponto p2 = new Ponto(p2x,p2y);
+			Reta r = new Reta(p1, p2);
+			this.retas.add(r);
 		}
 	}
 	
