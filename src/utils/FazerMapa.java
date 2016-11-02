@@ -13,6 +13,7 @@ public class FazerMapa {
 	int qtdRetas;
 	int alturaMapa;
 	int larguraMapa;
+
 	public FazerMapa(String caminho) throws IOException{
 		this.retas = new ArrayList<Reta>();
 		this.content = readFile(caminho);
@@ -20,6 +21,10 @@ public class FazerMapa {
 		this.qtdRetas = Integer.parseInt(st.nextToken());
 		this.alturaMapa = Integer.parseInt(st.nextToken());
 		this.larguraMapa = Integer.parseInt(st.nextToken());
+		geradorRetas();
+	}
+	
+	public void geradorRetas(){
 		for(int i = 0; i < qtdRetas; i++){
 			int p1x = Integer.parseInt(st.nextToken());
 			int p1y = Integer.parseInt(st.nextToken());
@@ -43,6 +48,7 @@ public class FazerMapa {
 	            sb.append("\n");
 	            line = br.readLine();
 	        }
+	        
 	        return sb.toString();
 	    } finally {
 	        br.close();
