@@ -10,7 +10,7 @@ public class Teste {
 		System.out.println("Boneco: " + map.achaBoneco().toString());
 		System.out.println("Fonte: " + map.achaFonte().toString());
 		map.printaTudo();
-		System.out.println("\n");
+		/*System.out.println("\n");
 		map.moveBoneco("w");
 		map.printaTudo();
 		System.out.println("\n");
@@ -21,7 +21,7 @@ public class Teste {
 		map.printaTudo();
 		System.out.println("\n");
 		map.moveBoneco("d");
-		map.printaTudo();
+		map.printaTudo(); */
 
 	}
 
