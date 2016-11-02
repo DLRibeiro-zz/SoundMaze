@@ -42,6 +42,10 @@ public class Ponto {
 		this.z = z;
 	}
 	
+	public String toString(){
+		return "(" + x + ", " + y + ")";
+	}
+	
 	
 	
 }
