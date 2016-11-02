@@ -46,12 +46,82 @@ public class Mapa {
 			for(int j = 0; j < larguraTabuleiro; j++){
 				if(tabuleiro[i][j] instanceof Parede == false){
 					tabuleiro[i][j] = new Chao(new Ponto(i,j));
-				} else {
-					//tabuleiro [i][j] = new Chao(new Ponto(i,j));
-				}
+				} 
 			}
 		}	
 	}
+	
+	public Ponto achaBoneco(){
+		Ponto p = null;
+		for(int i = 0; i < alturaTabuleiro; i++){
+			for(int j = 0; j < larguraTabuleiro; j++){
+				if(tabuleiro[i][j] instanceof Boneco){
+					p = new Ponto(((Boneco)tabuleiro[i][j]).p.getX(),((Boneco)tabuleiro[i][j]).p.getY());
+				}
+				
+			}
+		}	
+		return p;
+		
+	}
+	
+	public void moveBoneco(String direcao){
+		Ponto boneco = achaBoneco();
+		if(direcao.equals("w")){
+			if(tabuleiro[boneco.getX()-1][(boneco.getY())] instanceof Parede){
+				System.out.println("Bateu na parede!");
+			} else if (tabuleiro[boneco.getX()-1][(boneco.getY())] instanceof Fonte){
+				System.out.println("Cabosse!");
+			} else {
+				tabuleiro[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+				tabuleiro[boneco.getX()-1][(boneco.getY())] = new Boneco(new Ponto(boneco.getX()-1, boneco.getY()));
+			}
+		} else if(direcao.equals("s")){
+			if(tabuleiro[boneco.getX()+1][(boneco.getY())] instanceof Parede){
+				System.out.println("Bateu na parede!");
+			} else if (tabuleiro[boneco.getX()+1][(boneco.getY())] instanceof Fonte){
+				System.out.println("Cabosse!");
+			} else {
+				tabuleiro[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+				tabuleiro[boneco.getX()+1][(boneco.getY())] = new Boneco(new Ponto(boneco.getX()+1, boneco.getY()));
+			}
+		} else if(direcao.equals("a")){
+			if(tabuleiro[boneco.getX()][(boneco.getY())-1] instanceof Parede){
+				System.out.println("Bateu na parede!");
+			} else if (tabuleiro[boneco.getX()][(boneco.getY())-1] instanceof Fonte){
+				System.out.println("Cabosse!");
+			} else {
+				tabuleiro[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+				tabuleiro[boneco.getX()][(boneco.getY())-1] = new Boneco(new Ponto(boneco.getX(), boneco.getY()-1));
+			}
+		} else if(direcao.equals("d")){
+			if(tabuleiro[boneco.getX()][(boneco.getY())+1] instanceof Parede){
+				System.out.println("Bateu na parede!");
+			} else if (tabuleiro[boneco.getX()][(boneco.getY())+1] instanceof Fonte){
+				System.out.println("Cabosse!");
+			} else {
+				tabuleiro[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+				tabuleiro[boneco.getX()][(boneco.getY())+1] = new Boneco(new Ponto(boneco.getX(), boneco.getY()+1));
+			}
+		} else {
+			System.out.println("Entrada inválida!");
+		}
+	}
+	
+	public Ponto achaFonte(){
+		Ponto p = null;
+		for(int i = 0; i < alturaTabuleiro; i++){
+			for(int j = 0; j < larguraTabuleiro; j++){
+				if(tabuleiro[i][j] instanceof Fonte){
+					p = new Ponto(((Fonte)tabuleiro[i][j]).p.getX(),((Fonte)tabuleiro[i][j]).p.getY());
+				}
+				
+			}
+		}
+		return p;
+		
+	}
+
 	
 	public void iniciaJogo(){
 		Random random = new Random();
