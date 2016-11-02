@@ -93,6 +93,7 @@ public class Mapa {
 				System.out.println("Cabosse!");
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+
 				this.boneco = new Boneco(new Ponto(boneco.getX()-1, boneco.getY()));
 				mapa[boneco.getX()-1][(boneco.getY())] = this.boneco;
 			}
@@ -105,6 +106,7 @@ public class Mapa {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 				this.boneco = new Boneco(new Ponto(boneco.getX()+1, boneco.getY()));
 				mapa[boneco.getX()+1][(boneco.getY())] = this.boneco;
+
 			}
 		} else if(direcao.equals("a")){
 			if(mapa[boneco.getX()][(boneco.getY())-1] instanceof Parede){
@@ -113,8 +115,10 @@ public class Mapa {
 				System.out.println("Cabosse!");
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+
 				this.boneco = new Boneco(new Ponto(boneco.getX()+1, boneco.getY()));
 				mapa[boneco.getX()][(boneco.getY())-1] = this.boneco;
+
 			}
 		} else if(direcao.equals("d")){
 			if(mapa[boneco.getX()][(boneco.getY())+1] instanceof Parede){
@@ -123,8 +127,10 @@ public class Mapa {
 				System.out.println("Cabosse!");
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
+
 				this.boneco = new Boneco(new Ponto(boneco.getX(), boneco.getY()+1));
 				mapa[boneco.getX()][(boneco.getY())+1] = this.boneco;
+
 			}
 		} else {
 			System.out.println("Entrada inválida!");
