@@ -50,7 +50,7 @@ public class SoundSource {
 	 *  also created to play that buffer.
 	 * @throws FileNotFoundException 
 	 */
-	int loadALData() throws FileNotFoundException {
+	int loadALData(String arquivo) throws FileNotFoundException {
 		// Load wav data into a buffer.
 		AL10.alGenBuffers(buffer);
 
@@ -73,15 +73,16 @@ public class SoundSource {
 
 		//Loads the wave file from this class's package in your classpath
 
-		WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream("C:/Users/Walber Rodrigues/git/OpenAL/SoundMaze/p1.wav")));
+		WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream(arquivo)));
 //		System.out.println(""+buffer.get(0));
-//		System.out.println(""+waveFile.format+waveFile.data+waveFile.samplerate);
+//		System.out.println("Teste: " + waveFile.format + " , " + waveFile.data + " , " + waveFile.samplerate);
 		
 		AL10.alBufferData(buffer.get(0), waveFile.format, waveFile.data, waveFile.samplerate);
 		waveFile.dispose();
-		WaveData waveFile1 = WaveData.create(new BufferedInputStream(new FileInputStream("C:/Users/Walber Rodrigues/git/OpenAL/SoundMaze/p2.wav")));
+		//WaveData waveFile1 = WaveData.create(new BufferedInputStream(new FileInputStream("p2.wav")));
 		// Bind the buffer with the source.
 		AL10.alGenSources(source);
+//		System.out.println("Loadou");
 
 		if (AL10.alGetError() != AL10.AL_NO_ERROR)
 			return AL10.AL_FALSE;
@@ -122,11 +123,11 @@ public class SoundSource {
 		AL10.alDeleteBuffers(buffer);
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
-		new SoundSource().execute();
-	}
+//	public static void main(String[] args) throws FileNotFoundException {
+//		new SoundSource().execute();
+//	}
 
-	public void execute() throws FileNotFoundException {
+	public void execute(String arquivo, Float obj_x, Float obj_y, Float obj_z, Float bon_x, Float bon_y, Float bon_z) throws FileNotFoundException {
 		// Initialize OpenAL and clear the error bit.
 		try{
 			AL.create();
@@ -142,64 +143,71 @@ public class SoundSource {
 		source = BufferUtils.createIntBuffer(1);
 
 		/** Position of the source sound. */
-		sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
-
+		//sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+		sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { obj_x, obj_y, obj_z }).rewind();
+		
 		/** Velocity of the source sound. */
 		sourceVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
 
 		/** Position of the listener. */
-		listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1.0f, 1.0f, 1.0f }).rewind();
-
+		//listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1.0f, 1.0f, 1.0f }).rewind();
+		listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { bon_x, bon_y, bon_z }).rewind();
+		
 		/** Velocity of the listener. */
 		listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
 
 		/** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
 		listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
 		// Load the wav data.
-		if(loadALData() == AL10.AL_FALSE) {
+		if(loadALData(arquivo) == AL10.AL_FALSE) {
 			System.out.println("Error loading data.");
 			return;
 		}
 
 
 		setListenerValues();
-
-		// Loop.
-		System.out.println("OpenAL Tutorial 1 - Single Static Source");
-		System.out.println("[Menu]");
-		System.out.println("p - Play the sample.");
-		System.out.println("s - Stop the sample.");
-		System.out.println("h - Pause the sample.");
-		System.out.println("q - Quit the program.");
-		char c = ' ';
-		Scanner stdin = new Scanner(System.in);
-		while(c != 'q') {
-			try {
-				System.out.print("Input: ");
-				c = (char)stdin.nextLine().charAt(0);
-			} catch (Exception ex) {
-				c = 'q';
-			}
-
-			switch(c) {
-			// Pressing 'p' will begin playing the sample.
-			case 'p': AL10.alSourcePlay(source.get(0)); break;
-
-			// Pressing 's' will stop the sample from playing.
-			case's': AL10.alSourceStop(source.get(0)); break;
-
-			// Pressing 'h' will pause the sample.
-			case 'h': AL10.alSourcePause(source.get(0)); break;
-
-			case 'w': 
-				listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1000.0f, 1000.0f, 1000.0f }).rewind();
-				setListenerValues();
-				loadALData();
-				break;
-
-
-			};
+//		System.out.println("Bora rodar?");
+		AL10.alSourcePlay(source.get(0));
+		
+		while(AL10.alGetSourcei(source.get(0), AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING){
+			
 		}
+		// Loop.
+//		System.out.println("OpenAL Tutorial 1 - Single Static Source");
+//		System.out.println("[Menu]");
+//		System.out.println("p - Play the sample.");
+//		System.out.println("s - Stop the sample.");
+//		System.out.println("h - Pause the sample.");
+//		System.out.println("q - Quit the program.");
+//		char c = ' ';
+//		Scanner stdin = new Scanner(System.in);
+//		while(c != 'q') {
+//			try {
+//				System.out.print("Input: ");
+//				c = (char)stdin.nextLine().charAt(0);
+//			} catch (Exception ex) {
+//				c = 'q';
+//			}
+//
+//			switch(c) {
+//			// Pressing 'p' will begin playing the sample.
+//			case 'p': AL10.alSourcePlay(source.get(0)); break;
+//
+//			// Pressing 's' will stop the sample from playing.
+//			case's': AL10.alSourceStop(source.get(0)); break;
+//
+//			// Pressing 'h' will pause the sample.
+//			case 'h': AL10.alSourcePause(source.get(0)); break;
+//
+//			case 'w': 
+//				listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 1000.0f, 1000.0f, 1000.0f }).rewind();
+//				setListenerValues();
+//				loadALData();
+//				break;
+//
+//
+//			};
+//		}
 		killALData();
 		AL.destroy();
 	}
