@@ -40,11 +40,11 @@ public class Teste {
 				case "d": 
 					boolean ret = map.moveBoneco(aux);
 					if(!ret){
-						//10f, 0f, 0f, 0f, 0f, 0f
-						//step1.execute("p1.wav", 0f, 0f, 0f, 0f, 0f, 0f);
-						//step2.execute("p2.wav", 0f, 0f, 0f, 0f, 0f, 0f);
+//						10f, 0f, 0f, 0f, 0f, 0f
+						step1.execute("p1.wav", 0f, 0f, 0f, 0f, 0f, 0f);
+						step2.execute("p2.wav", 0f, 0f, 0f, 0f, 0f, 0f);
 					}else{
-						//hitwall.execute("bodyhit.wav", 0f, 0f, 0f, 0f, 0f, 0f);
+						hitwall.execute("bodyhit.wav", 0f, 0f, 0f, 0f, 0f, 0f);
 					}
 					/*sound.andar(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());*/ 
 					
@@ -55,7 +55,8 @@ public class Teste {
 					break;
 				case "e": exit = !exit;  break;
 				case " ": 
-					objective.execute("p1.wav", 0.0f+map.achaFonte().getY(), 0.0f+map.achaFonte().getX(), 0.0f+map.achaFonte().getZ(), 0.0f+map.achaBoneco().getY(), 0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getZ());
+					objective.execute 
+					("latido.wav", 0.0f+map.achaFonte().getY(), 0.0f+map.achaFonte().getX(), 0.0f+map.achaFonte().getZ(), 0.0f+map.achaBoneco().getY(), 0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getZ());
 					break;
 			}
 		}
