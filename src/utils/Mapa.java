@@ -84,14 +84,15 @@ public class Mapa {
 		
 	}
 	//movimentação apenas da posição do boneco
-	public boolean moveBoneco(String direcao){
+	public String moveBoneco(String direcao){
 		Ponto boneco = achaBoneco();
 		if(direcao.equals("w")){
 			if(mapa[boneco.getX()-1][(boneco.getY())] instanceof Parede){
 				System.out.println("Bateu na parede!");
-				return true;
+				return "true";
 			} else if (mapa[boneco.getX()-1][(boneco.getY())] instanceof Fonte){
 				System.out.println("Cabosse!");
+				return "hit";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 
@@ -101,9 +102,10 @@ public class Mapa {
 		} else if(direcao.equals("s")){
 			if(mapa[boneco.getX()+1][(boneco.getY())] instanceof Parede){
 				System.out.println("Bateu na parede!");
-				return true;
+				return "true";
 			} else if (mapa[boneco.getX()+1][(boneco.getY())] instanceof Fonte){
 				System.out.println("Cabosse!");
+				return "hit";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 				this.boneco = new Boneco(new Ponto(boneco.getX()+1, boneco.getY()));
@@ -113,9 +115,10 @@ public class Mapa {
 		} else if(direcao.equals("a")){
 			if(mapa[boneco.getX()][(boneco.getY())-1] instanceof Parede){
 				System.out.println("Bateu na parede!");
-				return true;
+				return "true";
 			} else if (mapa[boneco.getX()][(boneco.getY())-1] instanceof Fonte){
 				System.out.println("Cabosse!");
+				return "hit";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 
@@ -126,9 +129,10 @@ public class Mapa {
 		} else if(direcao.equals("d")){
 			if(mapa[boneco.getX()][(boneco.getY())+1] instanceof Parede){
 				System.out.println("Bateu na parede!");
-				return true;
+				return "true";
 			} else if (mapa[boneco.getX()][(boneco.getY())+1] instanceof Fonte){
 				System.out.println("Cabosse!");
+				return "hit";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 
@@ -137,9 +141,9 @@ public class Mapa {
 
 			}
 		} else {
-			System.out.println("Entrada inválida!");
+				System.out.println("Entrada inválida!");
 		}
-		return false;
+		return "false";
 	} 
 
 	

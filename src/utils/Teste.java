@@ -23,6 +23,7 @@ public class Teste {
 		SoundSource step1 = new SoundSource();
 		SoundSource step2 = new SoundSource();
 		SoundSource hitwall = new SoundSource();
+		SoundSource win = new SoundSource();
 		//bugado
 		//ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaFonte().getX(), 0.0f+map.achaFonte().getY(),0.0f+ map.achaFonte().getZ(), bonecao);
 		//(new Thread(obj)).start();
@@ -38,13 +39,15 @@ public class Teste {
 				case "a": //map.moveBoneco("a"); /*sound.andar(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());*/ map.printaTudo();  break;
 				case "s": //map.moveBoneco("s"); /*sound.andar(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());*/ map.printaTudo();  break;
 				case "d": 
-					boolean ret = map.moveBoneco(aux);
-					if(!ret){
+					String  ret = map.moveBoneco(aux);
+					if(ret.equals("false")){
 //						10f, 0f, 0f, 0f, 0f, 0f
 						step1.execute("p1.wav", 0f, 0f, 0f, 0f, 0f, 0f);
 						step2.execute("p2.wav", 0f, 0f, 0f, 0f, 0f, 0f);
-					}else{
+					}else if (ret.equals("true")){
 						hitwall.execute("bodyhit.wav", 0f, 0f, 0f, 0f, 0f, 0f);
+					} else {
+						win.execute("win.wav", 0f, 0f, 0f, 0f, 0f, 0f);	
 					}
 					/*sound.andar(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());*/ 
 					
