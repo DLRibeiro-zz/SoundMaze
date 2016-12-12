@@ -14,6 +14,8 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.util.WaveData;
 
+import utils.Mapa;
+
 public class MultipleSound {
 	/** Maximum data buffers we will need. */
 	public static final int NUM_BUFFERS = 3;
@@ -21,14 +23,14 @@ public class MultipleSound {
 	/** Maximum emissions we will need. */
 	public static final int NUM_SOURCES = 3;
 
-	/** Index of battle sound */
-	public static final int BATTLE = 0;
+	/** Index of BODYINT sound */
+	public static final int BODYINT = 0;
 
 	/** Index of gun 1 sound */
-	public static final int GUN1 = 1;
+	public static final int STEP1 = 1;
 
 	/** Index of gun 2 sound */
-	public static final int GUN2 = 2;
+	public static final int STEP2 = 2;
 
 	/** Buffers hold sound data. */
 	IntBuffer buffer = BufferUtils.createIntBuffer(NUM_BUFFERS);
@@ -60,7 +62,7 @@ public class MultipleSound {
 	 * @throws FileNotFoundException 
 	 */
 	int loadALData() throws FileNotFoundException {
-
+		
 		// Load wav data into a buffer.
 		AL10.alGenBuffers(buffer);
 
@@ -71,43 +73,46 @@ public class MultipleSound {
 		//		System.out.println(""+buffer.get(0));
 		//	    System.out.println(""+waveFile.format+waveFile.data+waveFile.samplerate);
 
-		AL10.alBufferData(buffer.get(0), waveFile.format, waveFile.data, waveFile.samplerate);
-		waveFile.dispose();
-
-		waveFile = WaveData.create(new BufferedInputStream(new FileInputStream("C:/Users/Walber Rodrigues/git/OpenAL/SoundMaze/p1.wav")));
-		AL10.alBufferData(buffer.get(1), waveFile.format, waveFile.data, waveFile.samplerate);
+		AL10.alBufferData(buffer.get(STEP1), waveFile.format, waveFile.data, waveFile.samplerate);
 		waveFile.dispose();
 
 		waveFile = WaveData.create(new BufferedInputStream(new FileInputStream("C:/Users/Walber Rodrigues/git/OpenAL/SoundMaze/p2.wav")));
-		AL10.alBufferData(buffer.get(2), waveFile.format, waveFile.data, waveFile.samplerate);
+		AL10.alBufferData(buffer.get(STEP2), waveFile.format, waveFile.data, waveFile.samplerate);
+		waveFile.dispose();
+
+		waveFile = WaveData.create(new BufferedInputStream(new FileInputStream("C:/Users/Walber Rodrigues/git/OpenAL/SoundMaze/bi.wav")));
+		AL10.alBufferData(buffer.get(BODYINT), waveFile.format, waveFile.data, waveFile.samplerate);
 		waveFile.dispose();
 
 		// Bind buffers into audio sources.
 		AL10.alGenSources(source);
-
+		
+		
+		
+		
 		if (AL10.alGetError() != AL10.AL_NO_ERROR)
 			return AL10.AL_FALSE;
 
-		AL10.alSourcei(source.get(BATTLE), AL10.AL_BUFFER,   buffer.get(BATTLE));
-		AL10.alSourcef(source.get(BATTLE), AL10.AL_PITCH,    1.0f          );
-		AL10.alSourcef(source.get(BATTLE), AL10.AL_GAIN,     1.0f          );
-		AL10.alSource (source.get(BATTLE), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(BATTLE*3));
-		AL10.alSource (source.get(BATTLE), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(BATTLE*3));
-		AL10.alSourcei(source.get(BATTLE), AL10.AL_LOOPING,  AL10.AL_TRUE  );
+		AL10.alSourcei(source.get(BODYINT), AL10.AL_BUFFER,   buffer.get(BODYINT));
+		AL10.alSourcef(source.get(BODYINT), AL10.AL_PITCH,    1.0f          );
+		AL10.alSourcef(source.get(BODYINT), AL10.AL_GAIN,     1.0f          );
+		AL10.alSource (source.get(BODYINT), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(BODYINT*3));
+		AL10.alSource (source.get(BODYINT), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(BODYINT*3));
+		AL10.alSourcei(source.get(BODYINT), AL10.AL_LOOPING,  AL10.AL_TRUE  );
 
-		AL10.alSourcei(source.get(GUN1), AL10.AL_BUFFER,   buffer.get(GUN1));
-		AL10.alSourcef(source.get(GUN1), AL10.AL_PITCH,    1.0f          );
-		AL10.alSourcef(source.get(GUN1), AL10.AL_GAIN,     1.0f          );
-		AL10.alSource (source.get(GUN1), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(GUN1*3));
-		AL10.alSource (source.get(GUN1), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(GUN1*3));
-		AL10.alSourcei(source.get(GUN1), AL10.AL_LOOPING,  AL10.AL_FALSE );
+		AL10.alSourcei(source.get(STEP1), AL10.AL_BUFFER,   buffer.get(STEP1));
+		AL10.alSourcef(source.get(STEP1), AL10.AL_PITCH,    1.0f          );
+		AL10.alSourcef(source.get(STEP1), AL10.AL_GAIN,     1.0f          );
+		AL10.alSource (source.get(STEP1), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(STEP1*3));
+		AL10.alSource (source.get(STEP1), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(STEP1*3));
+		AL10.alSourcei(source.get(STEP1), AL10.AL_LOOPING,  AL10.AL_FALSE );
 
-		AL10.alSourcei(source.get(GUN2), AL10.AL_BUFFER,   buffer.get(GUN2));
-		AL10.alSourcef(source.get(GUN2), AL10.AL_PITCH,    1.0f          );
-		AL10.alSourcef(source.get(GUN2), AL10.AL_GAIN,     1.0f          );
-		AL10.alSource (source.get(GUN2), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(GUN2*3));
-		AL10.alSource (source.get(GUN2), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(GUN2*3));
-		AL10.alSourcei(source.get(GUN2), AL10.AL_LOOPING,  AL10.AL_FALSE );
+		AL10.alSourcei(source.get(STEP2), AL10.AL_BUFFER,   buffer.get(STEP2));
+		AL10.alSourcef(source.get(STEP2), AL10.AL_PITCH,    1.0f          );
+		AL10.alSourcef(source.get(STEP2), AL10.AL_GAIN,     1.0f          );
+		AL10.alSource (source.get(STEP2), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(STEP2*3));
+		AL10.alSource (source.get(STEP2), AL10.AL_VELOCITY, (FloatBuffer) sourceVel.position(STEP2*3));
+		AL10.alSourcei(source.get(STEP2), AL10.AL_LOOPING,  AL10.AL_FALSE );
 
 		// Do another error check and return.
 		if (AL10.alGetError() == AL10.AL_NO_ERROR)
@@ -137,9 +142,9 @@ public class MultipleSound {
 		AL10.alDeleteSources(source);
 		AL10.alDeleteBuffers(buffer);
 	}
-	public static void main(String[] args) throws FileNotFoundException {
-		new MultipleSound().execute();
-	}
+//	public static void main(String[] args) throws FileNotFoundException {
+//		new MultipleSound().execute();
+//	}
 
 	/**
 	 *  Check for keyboard hit
@@ -152,7 +157,7 @@ public class MultipleSound {
 		return false;
 	}
 
-	public void execute() throws FileNotFoundException {
+	public void execute(Float x, Float y, Float z) throws FileNotFoundException {
 		// Initialize OpenAL and clear the error bit.
 		try{
 			AL.create();
@@ -170,8 +175,8 @@ public class MultipleSound {
 
 		setListenerValues();
 
-		// Begin the battle sample to play.
-		AL10.alSourcePlay(source.get(BATTLE));
+		// Begin the BODYINT sample to play.
+		AL10.alSourcePlay(source.get(BODYINT));
 
 		// Go through all the sources and check that they are playing.
 		// Skip the first source because it is looping anyway (will always be playing).
@@ -179,23 +184,26 @@ public class MultipleSound {
 		Random random = new Random();
 
 
-		while (!kbhit()) {
-			for (int i=1; i<NUM_SOURCES; i++){
+		
+			for (int i=0; i<NUM_SOURCES; i++){
 				play = AL10.alGetSourcei(source.get(i), AL10.AL_SOURCE_STATE);
 				if (play != AL10.AL_PLAYING) {
-					double theta = (double) (random.nextInt() % 360) * 3.14 / 180.0;
-
-					sourcePos.put(i*3+0, -(float) (Math.cos(theta)));
-					sourcePos.put(i*3+1, -(float) (random.nextInt()%2));
-					sourcePos.put(i*3+2, -(float) (Math.sin(theta)));
+					sourcePos.put(i*3+0, -(float) (x));
+					sourcePos.put(i*3+1, -(float) (y));
+					sourcePos.put(i*3+2, -(float) (z));
+					System.out.println("opa");
 
 					AL10.alSource(source.get(i), AL10.AL_POSITION, (FloatBuffer) sourcePos.position(i*3));
 					AL10.alSourcePlay(source.get(i));
 				}
 			}
-			
-		}
 		killALData();
 	}
+	public void andar(Float x, Float y, Float z) throws FileNotFoundException{
+		listenerPos = (FloatBuffer) BufferUtils.createFloatBuffer(3).put(new float[] { x, y, z }).rewind();
+		setListenerValues();
+		loadALData();
+	}
+	
 }
 
