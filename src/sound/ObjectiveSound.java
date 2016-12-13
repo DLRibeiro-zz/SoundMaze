@@ -16,6 +16,8 @@ public class ObjectiveSound implements Runnable{
 	private FloatBuffer listenerVel;
 	private FloatBuffer listenerOri;
 	
+	private boolean jogando;
+	
 	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA/*Ponto bonecao*/){
 		this.obj_x = obj_x;
 		this.obj_y = obj_y;
@@ -24,12 +26,18 @@ public class ObjectiveSound implements Runnable{
 		this.listenerPos = listenerPosA;
 		this.listenerVel = listenerVelA;
 		this.listenerOri = listenerOriA;
+		
+		this.jogando = true;
 	}
 	
 	public void setObjectPosition(Float obj_x, Float obj_y, Float obj_z){
 		this.obj_x = obj_x;
 		this.obj_y = obj_y;
 		this.obj_z = obj_z;
+	}
+	
+	public void setJogando(boolean jogando){
+		this.jogando = jogando;
 	}
 	
 	public void run(){
@@ -39,7 +47,7 @@ public class ObjectiveSound implements Runnable{
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		while(true){
+		while(jogando){
 			//SoundSource objective = new SoundSource();
 			try {
 				//System.out.println("( " + boneco.getX() + " , " + boneco.getY() + " ) - ( " + (boneco.getX()+0.0f) + " , " + (boneco.getY()+0.0f) + " )");

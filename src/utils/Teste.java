@@ -84,6 +84,7 @@ public class Teste {
 						hitwall.playSound();
 					} else {
 						//win.execute("win.wav", 0f, 0f, 0f, 0f, 0f, 0f);
+						obj.setJogando(false);
 						win.playSound();
 					}
 					/*sound.andar(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());*/ 
