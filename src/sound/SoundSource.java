@@ -115,7 +115,9 @@ public class SoundSource {
 		AL10.alListener(AL10.AL_ORIENTATION, listenerOri);
 	}
 	
+	//DEPRECATED
 	void setSourceValues(Float obj_x, Float obj_y, Float obj_z) {
+		System.out.println("atualizou o valor");
 		x = obj_x;
 		y = obj_y;
 		z = obj_z;

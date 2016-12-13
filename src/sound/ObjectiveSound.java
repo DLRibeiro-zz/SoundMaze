@@ -119,18 +119,25 @@ public class ObjectiveSound implements Runnable{
 	public void run(){
 		SoundSource objective = new SoundSource();
 		this.source = objective;
-		try {
+		/*try {
 			objective.execute("latido.wav", obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri);
 			
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 		while(jogando){
+			try {
+				objective.execute("latido.wav", obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri);
+				
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 			//SoundSource objective = new SoundSource();
 			try {
 				//System.out.println("( " + boneco.getX() + " , " + boneco.getY() + " ) - ( " + (boneco.getX()+0.0f) + " , " + (boneco.getY()+0.0f) + " )");
 				//objective.execute("objective.wav", obj_y, obj_x, obj_z, (boneco.getY()+0.0f), (boneco.getX()+0.0f), (boneco.getZ()+0.0f));
-				objective.setSourceValues(obj_y, obj_x, obj_z);
+				
+				//objective.setSourceValues(obj_y, obj_x, obj_z);
 				objective.playSound();
 				System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
 				Thread.sleep(5000);

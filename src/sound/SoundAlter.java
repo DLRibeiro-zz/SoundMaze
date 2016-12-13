@@ -15,12 +15,14 @@ public class SoundAlter {
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
 					x.y = x.y-1;
+					//x.y = x.y+1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}else if(direction.equalsIgnoreCase("s")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
 					x.y = x.y+1;
+					//x.y = x.y-1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}
@@ -28,13 +30,15 @@ public class SoundAlter {
 			if(direction.equalsIgnoreCase("w")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.y = x.y+1;
+					//x.y = x.y+1;
+					x.y = x.y-1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}else if(direction.equalsIgnoreCase("s")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.y = x.y-1;
+					//x.y = x.y-1;
+					x.y = x.y+1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}
@@ -42,13 +46,17 @@ public class SoundAlter {
 			if(direction.equalsIgnoreCase("w")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.x = x.x+1;
+					x.y = x.y-1;
+					//x.x = x.x+1;
+					//x.x = x.x-1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}else if(direction.equalsIgnoreCase("s")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.x = x.x-1;
+					x.y = x.y+1;
+					//x.x = x.x-1;
+					//x.x = x.x+1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}
@@ -56,28 +64,37 @@ public class SoundAlter {
 			if(direction.equalsIgnoreCase("w")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.x = x.x-1;
+					x.y = x.y-1;
+					//x.x = x.x-1;
+					//x.x = x.x+1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}else if(direction.equalsIgnoreCase("s")){
 				for(ObjectiveSound s : this.obj){
 					SoundSource x = s.getSource();
-					x.x = x.x+1;
+					x.y = x.y+1;
+					//x.x = x.x+1;
+					//x.x = x.x-1;
 					s.setObjectPosition(x.y, x.x, x.z);
 				}
 			}
-		}else if(direction.equalsIgnoreCase("d")){
+		}
+		if(direction.equalsIgnoreCase("d")){
 			for(ObjectiveSound s : this.obj){
 				SoundSource x = s.getSource();
+				Float antX = x.x;
 				x.x = -x.y;
-				x.y = x.x;
+				//x.y = x.x;
+				x.y = antX;
 				s.setObjectPosition(x.y, x.x, x.z);
 			}
 		}else if(direction.equalsIgnoreCase("a")){
 			for(ObjectiveSound s: this.obj){
 				SoundSource x = s.getSource();
+				Float antX = x.x;
 				x.x = x.y;
-				x.y = -x.x;
+				//x.y = -x.x;
+				x.y = -antX;
 				s.setObjectPosition(x.y, x.x, x.z);
 			}
 		}
