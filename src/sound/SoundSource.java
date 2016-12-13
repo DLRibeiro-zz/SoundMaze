@@ -20,7 +20,7 @@ public class SoundSource {
 	public static final int STEP1 = 0;
 	public static final int STEP2 = 1;
 	public static final int COLISION = 2;
-
+	public Float x,y,z;
 	//criacao dos buffers de audio eles guardam os dados do som
 	private IntBuffer buffer = BufferUtils.createIntBuffer(3);
 
@@ -116,8 +116,13 @@ public class SoundSource {
 	}
 	
 	void setSourceValues(Float obj_x, Float obj_y, Float obj_z) {
+		x = obj_x;
+		y = obj_y;
+		z = obj_z;
 		sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { obj_x, obj_y, obj_z }).rewind();
 	}
+	
+	
 
 	/**
 	 * void killALData()
@@ -136,8 +141,6 @@ public class SoundSource {
 
 	public void playSound(){
 		AL10.alSourcePlay(source.get(0));
-		
-		//vai precisar disso?
 		while(AL10.alGetSourcei(source.get(0), AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING){
 			
 		}
@@ -161,7 +164,9 @@ public class SoundSource {
 		/** Position of the source sound. */
 		//sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
 		sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { obj_x, obj_y, obj_z }).rewind();
-		
+		x = obj_x;
+		y = obj_y;
+		z = obj_z;
 		/** Velocity of the source sound. */
 		sourceVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
 

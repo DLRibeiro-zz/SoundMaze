@@ -178,7 +178,11 @@ public class Mapa {
 				System.out.println("Entrada inválida!");
 		}
 		return "false";
-	} 
+	}
+	
+	public String acharVisao(){
+		return this.boneco.getVisao();
+	}
 
 	
 	public void iniciaJogo(){
