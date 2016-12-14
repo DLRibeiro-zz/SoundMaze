@@ -114,6 +114,30 @@ public class Mapa {
 		return this.chave.p;
 	}
 	
+	public void setRefem(Boneco refem, String direcao){
+		this.refem = refem;
+		mapa[refem.p.getX()][refem.p.getY()] = this.refem;
+		mapaF[refem.p.getX()][refem.p.getY()] = "R";
+		Ponto boneco = achaBoneco();
+		if(direcao.equals("w")){
+			int x = andar[visao][0];
+			int y = andar[visao][1];
+			
+			if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Boneco){
+				mapa[boneco.getX()+x][boneco.getY()+y] = new Chao(new Ponto(boneco.getX()+x, boneco.getY()+y));
+				mapaF[boneco.getX()+x][boneco.getY()+y] = "_";
+			}
+		}else if(direcao.equals("s")){
+			int x = andar[visao][2];
+			int y = andar[visao][3];
+			
+			if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Boneco){
+				mapa[boneco.getX()+x][boneco.getY()+y] = new Chao(new Ponto(boneco.getX()+x, boneco.getY()+y));
+				mapaF[boneco.getX()+x][boneco.getY()+y] = "_";
+			}
+		}
+	}
+	
 	public void setFonte(Fonte fonte, String direcao){
 		this.fonte = fonte;
 		mapa[fonte.p.getX()][fonte.p.getY()] = this.fonte;
@@ -155,6 +179,9 @@ public class Mapa {
 			} else if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Chave){
 				System.out.println("Pegou a chave!");
 				return "chave";
+			} else if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Radio){
+				System.out.println("Bateu no radio!");
+				return "radio";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 				this.boneco = new Boneco(new Ponto(boneco.getX()+x, boneco.getY()+y), "P");
@@ -176,6 +203,9 @@ public class Mapa {
 			} else if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Chave){
 				System.out.println("Pegou a chave!");
 				return "chave";
+			} else if (mapa[boneco.getX()+x][boneco.getY()+y] instanceof Radio){
+				System.out.println("Bateu no radio!");
+				return "radio";
 			} else {
 				mapa[boneco.getX()][(boneco.getY())] = new Chao(new Ponto(boneco.getX(), boneco.getY()));
 				this.boneco = new Boneco(new Ponto(boneco.getX()+x, boneco.getY()+y), "P");

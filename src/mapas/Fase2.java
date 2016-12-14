@@ -10,6 +10,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 
+import sound.MultipleObjectSound;
 import sound.ObjectiveSound;
 import sound.SoundAlter;
 import sound.SoundSource;
@@ -88,7 +89,7 @@ public class Fase2 {
 		SoundSource step2 = new SoundSource();
 		step2.execute("p2.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource hitwall = new SoundSource();
-		hitwall.execute("bodyhit.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
+		hitwall.execute("latido.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource win = new SoundSource();
 		win.execute("open_door.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource pegouChave = new SoundSource();
@@ -97,7 +98,7 @@ public class Fase2 {
 		abrirCorrentes.execute("unlocking.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 //		System.out.println("X : " + map.achaBoneco().getX() + " - " + map.achaFonte().getX() + " = " + (map.achaBoneco().getX()-map.achaFonte().getX()));
 //		System.out.println("Y : " + map.achaFonte().getY() + " - " + map.achaBoneco().getY() + " = " + (map.achaFonte().getY()-map.achaBoneco().getY()));
-		ObjectiveSound refem = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaRefem().getX(), 0.0f+map.achaRefem().getY()-map.achaBoneco().getY(),0.0f+ map.achaRefem().getZ(), listenerPos, listenerVel, listenerOri, "latido.wav", 5000, 1.0f);
+		ObjectiveSound refem = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaRefem().getX(), 0.0f+map.achaRefem().getY()-map.achaBoneco().getY(),0.0f+ map.achaRefem().getZ(), listenerPos, listenerVel, listenerOri, "refem-amordacado.wav", 5000, 1.0f);
 		objs.add(refem);
 		(new Thread(refem)).start();
 		ObjectiveSound refemPt2 = null;
@@ -107,6 +108,13 @@ public class Fase2 {
 //		ObjectiveSound radio = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, "radio_inter.wav", 0, 0.05f);
 //		objs.add(radio);
 //		(new Thread(radio)).start();
+		ArrayList<String> topzera = new ArrayList<String>();
+		topzera.add("radio1.wav");
+		topzera.add("radio2.wav");
+		topzera.add("radio3.wav");
+		MultipleObjectSound radios = new MultipleObjectSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, topzera, 0, 0.5f);
+		objs.add(radios);
+		(new Thread(radios)).start();
 		ObjectiveSound chuva = new ObjectiveSound(0.0f, 0.0f, 20.0f, listenerPos, listenerVel, listenerOri, "rain-02-cut.wav", 0, 0.15f);
 		(new Thread(chuva)).start();
 		map.printaTudo();
@@ -134,6 +142,8 @@ public class Fase2 {
 							chave.setJogando(false);
 							pegouChave.playSound();
 							estaChave = true;
+						}else{
+							hitwall.playSound();
 						}
 					} else if (ret.equals("refem")){
 						if(estaChave){
@@ -144,14 +154,18 @@ public class Fase2 {
 							System.out.println("Y : " + map.achaFonte().getY() + " - " + map.achaBoneco().getY() + " = " + (map.achaFonte().getY()-map.achaBoneco().getY()));
 							refem.setJogando(false);
 							objs.remove(0);
-							if(map.acharVisao().equals("N") || map.acharVisao().equals("S")){
+							if(map.acharVisao().equals("N")){
 								refemPt2 = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaFonte().getY()-map.achaBoneco().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "come on lets go.wav", 5000, 1.0f);
 								//refem.setObj_x(0.0f+map.achaBoneco().getX()-map.achaFonte().getX());
 								//refem.setObj_y(0.0f+map.achaFonte().getY()-map.achaBoneco().getY());
-							}else if(map.acharVisao().equals("L") || map.acharVisao().equals("O")){
+							}else if(map.acharVisao().equals("S")){
+								refemPt2 = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaBoneco().getY()-map.achaFonte().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "come on lets go.wav", 5000, 1.0f);
+							}else if(map.acharVisao().equals("L")){
 								refemPt2 = new ObjectiveSound(0.0f+map.achaFonte().getY()-map.achaBoneco().getY(), 0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "come on lets go.wav", 5000, 1.0f);
 								//refem.setObj_y(0.0f+map.achaBoneco().getX()-map.achaFonte().getX());
 								//refem.setObj_x(0.0f+map.achaFonte().getY()-map.achaBoneco().getY());
+							}else if(map.acharVisao().equals("O")){
+								refemPt2 = new ObjectiveSound(0.0f+map.achaBoneco().getY()-map.achaFonte().getY(), 0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "come on lets go.wav", 5000, 1.0f);
 							}
 							objs.add(refemPt2);
 							(new Thread(refemPt2)).start();
@@ -161,6 +175,8 @@ public class Fase2 {
 						}else{
 							//dialogo para pegar a chave?
 						}
+					} else if (ret.equals("radio")){
+						hitwall.playSound();
 					} else {
 						//refem.setJogando(false);
 						refemPt2.setJogando(false);

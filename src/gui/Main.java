@@ -14,10 +14,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+
 import javax.swing.SwingConstants;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
+
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import net.miginfocom.swing.MigLayout;
+import sound.ObjectiveSound;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -25,6 +35,9 @@ public class Main {
 
 	protected JFrame framePrincipal;
 	private JPanel contentPane;
+	
+	private ObjectiveSound teste;
+	private Thread chuva;
 	
 	/**
 	 * Launch the application.
@@ -55,6 +68,24 @@ public class Main {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
+		try{
+			AL.create();
+		} catch (LWJGLException le) {
+			le.printStackTrace();
+			return;
+		}
+		AL10.alGetError();
+		
+		//posicao do listener
+		FloatBuffer listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f/*1.0f, 1.0f, 1.0f*/ }).rewind();
+		//velocidade do listener
+		FloatBuffer listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+		/** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
+		FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
+		
+		teste = new ObjectiveSound(0.0f, 0.0f, 20.0f, listenerPos, listenerVel, listenerOri, "rain-01-cut.wav", 0, 0.15f);
+		chuva = new Thread(teste);
+		chuva.start();
 		
 		framePrincipal = new JFrame();
 		Font font = new Font("Black Asylum", Font.PLAIN, 25);
@@ -108,14 +139,14 @@ public class Main {
 		});
 		btnIniciar.setBorderPainted(false);
 		btnIniciar.setBackground(corBotaoIniciar);	
-		btnIniciar.setFont(new Font("Black Asylum", Font.PLAIN, 15));
+		btnIniciar.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		framePrincipal.getContentPane().add(btnIniciar, "flowx,cell 0 1,alignx center,aligny center");
 		
 		
 		JButton btnFases = new JButton("  Fases  ");
 		btnFases.setBorderPainted(false);
 		
-		btnFases.setFont(new Font("Black Asylum", Font.PLAIN, 15));
+		btnFases.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnFases.setBackground(new Color(65,171,197));
 		btnFases.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -144,11 +175,18 @@ public class Main {
 		});
 		btnCreditos.setBorderPainted(false);
 		btnCreditos.setBackground(new Color(65,171,197));
-		btnCreditos.setFont(new Font("Black Asylum", Font.PLAIN, 15));
+		btnCreditos.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		framePrincipal.getContentPane().add(btnCreditos, "flowx,cell 0 3,alignx center,aligny center");
 		
 	}
 	protected void setInvisible(){
+		try {
+			teste.setJogando(false);
+			chuva.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		AL.destroy();
 		this.framePrincipal.setVisible(false);
 	}
 	

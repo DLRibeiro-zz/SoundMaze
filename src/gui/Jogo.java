@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -20,6 +21,8 @@ import java.awt.Graphics;
 
 import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
+import utils.Apagar;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -47,15 +50,40 @@ public class Jogo extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public Jogo() {
+		setResizable(false);
+		ArrayList<String> comando = new ArrayList<String>();
+		Apagar jogo = new Apagar(comando);
+		(new Thread(jogo)).start();
+		
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
 				char tecla = evt.getKeyChar();
 				switch (tecla){
-				case 'w' : System.out.println("w"); break; 
-				case 'a' : System.out.println("a"); break;
-				case 's' : System.out.println("s"); break;
-				case 'd' : System.out.println("d"); break;
+				case 'w' :
+					if(comando.size() == 0){
+						System.out.println("w");
+						comando.add("w");
+					}
+					break; 
+				case 'a' : 
+					if(comando.size() == 0){
+						System.out.println("a");
+						comando.add("a");
+					}
+					break;
+				case 's' : 
+					if(comando.size() == 0){
+						System.out.println("s");
+						comando.add("s");
+					}
+					break;
+				case 'd' : 
+					if(comando.size() == 0){
+						System.out.println("d");
+						comando.add("d");
+					}
+					break;
 				}
 			}
 		});

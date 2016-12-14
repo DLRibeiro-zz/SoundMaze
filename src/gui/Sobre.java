@@ -64,7 +64,7 @@ public class Sobre extends JFrame implements Runnable
 		label.setFont(new Font("Black Asylum", Font.PLAIN, 46));
 		label.setForeground(Color.WHITE);
 		getContentPane().add(label, "cell 1 1,alignx center,aligny center");
-		String[] data = {"                          RealizaÃ§Ã£o: "," ","      wro@cin.ufpe.br","      tmb2@cin.ufpe.br","      ajew@cin.ufpe.br","      rcac@cin.ufpe.br", "      dlr4@cin.ufpe.br"};	
+		String[] data = {"                          Realização: "," ","      wro@cin.ufpe.br","      tmb2@cin.ufpe.br","      ajew@cin.ufpe.br","      rcac@cin.ufpe.br", "      dlr4@cin.ufpe.br"};	
 		JList<String> list = new JList(data);
 		
 		list.setFont(new Font("Times", Font.BOLD, 15));
@@ -89,7 +89,7 @@ public class Sobre extends JFrame implements Runnable
 		});
 		btnVoltar.setBorderPainted(false);
 		btnVoltar.setBackground(new Color(255,184,96));	
-		btnVoltar.setFont(new Font("Black Asylum", Font.PLAIN, 15));
+		btnVoltar.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		getContentPane().add(btnVoltar, "flowx,cell 1 4,alignx center,aligny center");
 
 

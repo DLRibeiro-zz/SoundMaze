@@ -86,7 +86,7 @@ public class Fases extends JFrame implements Runnable {
 		});
 		btnVoltar.setBorderPainted(false);
 		btnVoltar.setBackground(new Color(255,184,96));	
-		btnVoltar.setFont(new Font("Black Asylum", Font.PLAIN, 15));
+		btnVoltar.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		getContentPane().add(btnVoltar, "flowx,cell 1 4,alignx center,aligny center");
 
 		getContentPane().add(list, "cell 1 3,grow");

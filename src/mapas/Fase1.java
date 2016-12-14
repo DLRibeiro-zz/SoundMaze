@@ -33,7 +33,11 @@ public class Fase1 {
 	private ArrayList<ObjectiveSound> objs;
 	private SoundAlter soundAlter;
 	private Scanner in;
+	private ArrayList<String> comando;
 	
+	public Fase1(ArrayList<String> comando){
+		this.comando = comando;
+	}
 	public Fase1(Scanner in){
 		this.in = in;
 	}
@@ -88,8 +92,22 @@ public class Fase1 {
 		map.printaTudo();
 		boolean exit = false;
 //		Scanner in = new Scanner(System.in);
+		String aux = "";
 		while (!exit){
-			String aux = in.nextLine();
+			//String aux = in.nextLine();
+			boolean topzera = true;
+			while(topzera){
+				if(this.comando.size() > 0){
+					topzera = false;
+					System.out.println(this.comando.get(0));
+					aux = this.comando.get(0);
+				}else{
+					System.out.print("");
+				}
+			}
+//			while(this.comando.size() < 1){}
+			System.out.println("saiu");
+//			aux = this.comando.get(0);
 			System.out.println("\n");
 			switch (aux){ 
 				case "w": 
@@ -124,6 +142,7 @@ public class Fase1 {
 					break;
 				case "e": exit = !exit;  break;
 			}
+			this.comando.remove(0);
 		}
 //		in.close();
 	}
