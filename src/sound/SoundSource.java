@@ -53,7 +53,7 @@ public class SoundSource {
 	 *  also created to play that buffer.
 	 * @throws FileNotFoundException 
 	 */
-	int loadALData(String arquivo) throws FileNotFoundException {
+	int loadALData(String arquivo, Float volume) throws FileNotFoundException {
 		// Load wav data into a buffer.
 		AL10.alGenBuffers(buffer);
 
@@ -78,7 +78,7 @@ public class SoundSource {
 
 		WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream(arquivo)));
 //		System.out.println(""+buffer.get(0));
-//		System.out.println("Teste: " + waveFile.format + " , " + waveFile.data + " , " + waveFile.samplerate);
+		//System.out.println("Teste: " + waveFile.format + " , " + waveFile.data + " , " + waveFile.samplerate);
 		
 		AL10.alBufferData(buffer.get(0), waveFile.format, waveFile.data, waveFile.samplerate);
 		waveFile.dispose();
@@ -92,7 +92,7 @@ public class SoundSource {
 
 		AL10.alSourcei(source.get(0), AL10.AL_BUFFER,   buffer.get(0) );
 		AL10.alSourcef(source.get(0), AL10.AL_PITCH,    1.0f          );
-		AL10.alSourcef(source.get(0), AL10.AL_GAIN,     1.0f          );
+		AL10.alSourcef(source.get(0), AL10.AL_GAIN,     /*1.0f*/volume          );
 		AL10.alSource (source.get(0), AL10.AL_POSITION, sourcePos     );
 		AL10.alSource (source.get(0), AL10.AL_VELOCITY, sourceVel     );
 
@@ -132,7 +132,7 @@ public class SoundSource {
 	 *  We have allocated memory for our buffers and sources which needs
 	 *  to be returned to the system. This function frees that memory.
 	 */
-	void killALData() {
+	public void killALData() {
 		AL10.alDeleteSources(source);
 		AL10.alDeleteBuffers(buffer);
 	}
@@ -148,7 +148,7 @@ public class SoundSource {
 		}
 	}
 	
-	public void execute(String arquivo, Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA/*Float bon_x, Float bon_y, Float bon_z*/) throws FileNotFoundException {
+	public void execute(String arquivo, Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA, Float volume/*Float bon_x, Float bon_y, Float bon_z*/) throws FileNotFoundException {
 		// Initialize OpenAL and clear the error bit.
 		/*try{
 			AL.create();
@@ -185,8 +185,8 @@ public class SoundSource {
 		//listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
 		listenerOri = listenerOriA;
 		// Load the wav data.
-		if(loadALData(arquivo) == AL10.AL_FALSE) {
-			System.out.println("Error loading data.");
+		if(loadALData(arquivo, volume) == AL10.AL_FALSE) {
+			System.out.println("Error loading data. " + arquivo);
 			return;
 		}
 

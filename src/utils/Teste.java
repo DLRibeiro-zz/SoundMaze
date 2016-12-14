@@ -24,7 +24,7 @@ public class Teste {
 	private ArrayList<ObjectiveSound> objs;
 	private SoundAlter soundAlter;
 	public void MainVerdadeiro() throws IOException{
-		Mapa map = new Mapa("fase2.txt");
+		Mapa map = new Mapa(/*"fase2.txt"*/);
 		this.soundSources = new ArrayList<SoundSource>();
 		this.objs = new ArrayList<ObjectiveSound>();
 		this.soundAlter = new SoundAlter(objs);
@@ -54,20 +54,20 @@ public class Teste {
 		
 		//sound.execute(0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getY(),0.0f+ map.achaBoneco().getZ());
 		SoundSource step1 = new SoundSource();
-		step1.execute("p1.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri);
+		step1.execute("p1.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource step2 = new SoundSource();
-		step2.execute("p2.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri);
+		step2.execute("p2.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource hitwall = new SoundSource();
-		hitwall.execute("bodyhit.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri);
+		hitwall.execute("bodyhit.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource win = new SoundSource();
-		win.execute("win.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri);
+		win.execute("win.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		//bugado
 		//ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaFonte().getX(), 0.0f+map.achaFonte().getY(),0.0f+ map.achaFonte().getZ(), bonecao);
 		//(new Thread(obj)).start();
 		//SoundSource objective = new SoundSource();
 		System.out.println("X : " + map.achaBoneco().getX() + " - " + map.achaFonte().getX() + " = " + (map.achaBoneco().getX()-map.achaFonte().getX()));
 		System.out.println("Y : " + map.achaFonte().getY() + " - " + map.achaBoneco().getY() + " = " + (map.achaFonte().getY()-map.achaBoneco().getY()));
-		ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaFonte().getY()-map.achaBoneco().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "latido.wav", 5000);
+		ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaFonte().getY()-map.achaBoneco().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "latido.wav", 5000, 1.0f);
 		//ObjectiveSound obj = new ObjectiveSound(0.0f, -2.0f,0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri);
 		objs.add(obj);
 		(new Thread(obj)).start();

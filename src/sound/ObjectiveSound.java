@@ -3,6 +3,8 @@ package sound;
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
 
+import org.lwjgl.openal.AL;
+
 import utils.Ponto;
 
 public class ObjectiveSound implements Runnable{
@@ -16,12 +18,14 @@ public class ObjectiveSound implements Runnable{
 	private FloatBuffer listenerVel;
 	private FloatBuffer listenerOri;
 	
-	private boolean jogando;
+//	private boolean jogando;
+	private Boolean jogando;
 	
 	private String arquivo;
 	private int intervalo;
+	private Float volume;
 	
-	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA, String arquivo, int intervalo/*Ponto bonecao*/){
+	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA, String arquivo, int intervalo, Float volume/*Ponto bonecao*/){
 		this.obj_x = obj_x;
 		this.obj_y = obj_y;
 		this.obj_z = obj_z;
@@ -34,6 +38,7 @@ public class ObjectiveSound implements Runnable{
 		
 		this.arquivo = arquivo;
 		this.intervalo = intervalo;
+		this.volume = volume;
 	}
 	
 	
@@ -54,6 +59,7 @@ public class ObjectiveSound implements Runnable{
 
 	public void setObj_x(float obj_x) {
 		this.obj_x = obj_x;
+		System.out.println("Novo obj_x = " + this.obj_x + " ( " + obj_x + " ) ");
 	}
 
 
@@ -64,6 +70,7 @@ public class ObjectiveSound implements Runnable{
 
 	public void setObj_y(float obj_y) {
 		this.obj_y = obj_y;
+		System.out.println("Novo obj_y = " + this.obj_y + " ( " + obj_y + " ) ");
 	}
 
 
@@ -121,6 +128,9 @@ public class ObjectiveSound implements Runnable{
 		return jogando;
 	}
 
+	public void setArquivo(String arquivo){
+		this.arquivo = arquivo;
+	}
 
 	public void run(){
 		SoundSource objective = new SoundSource();
@@ -133,7 +143,7 @@ public class ObjectiveSound implements Runnable{
 		}*/
 		while(jogando){
 			try {
-				objective.execute(/*"latido.wav"*/arquivo, obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri);
+				objective.execute(/*"latido.wav"*/arquivo, obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri, volume);
 				
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
@@ -145,7 +155,7 @@ public class ObjectiveSound implements Runnable{
 				
 				//objective.setSourceValues(obj_y, obj_x, obj_z);
 				objective.playSound();
-				System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
+				if(arquivo.equals("latido.wav") || arquivo.equals("come on lets go.wav")) System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
 				Thread.sleep(intervalo/*5000*/);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -153,5 +163,8 @@ public class ObjectiveSound implements Runnable{
 			}
 			
 		}
+		objective.killALData();
+		//talvez precise mudar de lugar
+		//AL.destroy();
 	}
 }
