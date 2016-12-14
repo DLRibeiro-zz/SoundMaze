@@ -41,6 +41,21 @@ public class ObjectiveSound implements Runnable{
 		this.volume = volume;
 	}
 	
+	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA, /*String arquivo,*/ int intervalo, Float volume/*Ponto bonecao*/){
+		this.obj_x = obj_x;
+		this.obj_y = obj_y;
+		this.obj_z = obj_z;
+		//this.boneco = bonecao;
+		this.listenerPos = listenerPosA;
+		this.listenerVel = listenerVelA;
+		this.listenerOri = listenerOriA;
+		
+		this.jogando = true;
+		
+		//this.arquivo = arquivo;
+		this.intervalo = intervalo;
+		this.volume = volume;
+	}
 	
 	public void setObjectPosition(Float obj_x, Float obj_y, Float obj_z){
 		this.obj_x = obj_x;
@@ -132,6 +147,26 @@ public class ObjectiveSound implements Runnable{
 		this.arquivo = arquivo;
 	}
 
+	public int getIntervalo() {
+		return intervalo;
+	}
+
+
+	public void setIntervalo(int intervalo) {
+		this.intervalo = intervalo;
+	}
+
+
+	public Float getVolume() {
+		return volume;
+	}
+
+
+	public void setVolume(Float volume) {
+		this.volume = volume;
+	}
+
+
 	public void run(){
 		SoundSource objective = new SoundSource();
 		this.source = objective;
@@ -155,7 +190,7 @@ public class ObjectiveSound implements Runnable{
 				
 				//objective.setSourceValues(obj_y, obj_x, obj_z);
 				objective.playSound();
-				if(arquivo.equals("latido.wav") || arquivo.equals("come on lets go.wav")) System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
+				if(arquivo.equals("radio1.wav") || arquivo.equals("radio2.wav") || arquivo.equals("radio3.wav")/*arquivo.equals("latido.wav") || arquivo.equals("come on lets go.wav")*/) System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
 				Thread.sleep(intervalo/*5000*/);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
