@@ -4,9 +4,9 @@ public class Boneco extends Objetos{
 
 	private String visao;
 	
-	public Boneco(Ponto p) {
+	public Boneco(Ponto p, String visao) {
 		super(p);
-		this.visao = "N";
+		this.visao = visao;
 		// TODO Auto-generated constructor stub
 	}
 	

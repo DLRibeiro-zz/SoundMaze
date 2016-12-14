@@ -24,13 +24,13 @@ public class Teste {
 	private ArrayList<ObjectiveSound> objs;
 	private SoundAlter soundAlter;
 	public void MainVerdadeiro() throws IOException{
-		Mapa map = new Mapa("teste.txt");
+		Mapa map = new Mapa("fase2.txt");
 		this.soundSources = new ArrayList<SoundSource>();
 		this.objs = new ArrayList<ObjectiveSound>();
 		this.soundAlter = new SoundAlter(objs);
-		map.criarMapa();
+		map.criarMapa(2);
 		System.out.println("Boneco: " + map.achaBoneco().toString());
-		System.out.println("Fonte: " + map.achaFonte().toString());
+		//System.out.println("Fonte: " + map.achaFonte().toString());
 		//MultipleSound sound = new MultipleSound();
 		
 		bonecao = new Ponto(map.achaBoneco().getX(), map.achaBoneco().getY(), map.achaBoneco().getZ());
