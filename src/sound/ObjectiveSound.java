@@ -18,7 +18,10 @@ public class ObjectiveSound implements Runnable{
 	
 	private boolean jogando;
 	
-	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA/*Ponto bonecao*/){
+	private String arquivo;
+	private int intervalo;
+	
+	public ObjectiveSound(Float obj_x, Float obj_y, Float obj_z, FloatBuffer listenerPosA, FloatBuffer listenerVelA, FloatBuffer listenerOriA, String arquivo, int intervalo/*Ponto bonecao*/){
 		this.obj_x = obj_x;
 		this.obj_y = obj_y;
 		this.obj_z = obj_z;
@@ -28,6 +31,9 @@ public class ObjectiveSound implements Runnable{
 		this.listenerOri = listenerOriA;
 		
 		this.jogando = true;
+		
+		this.arquivo = arquivo;
+		this.intervalo = intervalo;
 	}
 	
 	
@@ -127,7 +133,7 @@ public class ObjectiveSound implements Runnable{
 		}*/
 		while(jogando){
 			try {
-				objective.execute("latido.wav", obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri);
+				objective.execute(/*"latido.wav"*/arquivo, obj_y, obj_x, obj_z, listenerPos, listenerVel, listenerOri);
 				
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
@@ -140,7 +146,7 @@ public class ObjectiveSound implements Runnable{
 				//objective.setSourceValues(obj_y, obj_x, obj_z);
 				objective.playSound();
 				System.out.println("x:" +obj_y+  " y :"+ obj_x + " z: "+ obj_z);
-				Thread.sleep(5000);
+				Thread.sleep(intervalo/*5000*/);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

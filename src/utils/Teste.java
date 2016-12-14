@@ -67,7 +67,7 @@ public class Teste {
 		//SoundSource objective = new SoundSource();
 		System.out.println("X : " + map.achaBoneco().getX() + " - " + map.achaFonte().getX() + " = " + (map.achaBoneco().getX()-map.achaFonte().getX()));
 		System.out.println("Y : " + map.achaFonte().getY() + " - " + map.achaBoneco().getY() + " = " + (map.achaFonte().getY()-map.achaBoneco().getY()));
-		ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaFonte().getY()-map.achaBoneco().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri);
+		ObjectiveSound obj = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaFonte().getX(), 0.0f+map.achaFonte().getY()-map.achaBoneco().getY(),0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri, "latido.wav", 5000);
 		//ObjectiveSound obj = new ObjectiveSound(0.0f, -2.0f,0.0f+ map.achaFonte().getZ(), listenerPos, listenerVel, listenerOri);
 		objs.add(obj);
 		(new Thread(obj)).start();
