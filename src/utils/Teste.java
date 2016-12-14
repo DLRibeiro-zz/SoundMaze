@@ -62,7 +62,7 @@ public class Teste {
 					("latido.wav", 0.0f+map.achaFonte().getY(), 0.0f+map.achaFonte().getX(), 0.0f+map.achaFonte().getZ(), 0.0f+map.achaBoneco().getY(), 0.0f+map.achaBoneco().getX(), 0.0f+map.achaBoneco().getZ());
 					break;
 			}
-		}
+		} 
 		in.close();
 	}
 	
