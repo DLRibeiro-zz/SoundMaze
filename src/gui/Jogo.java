@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.lwjgl.openal.AL;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -38,7 +43,7 @@ public class Jogo extends JFrame implements Runnable {
 
 	public void run() {
 		try {
-			this.frame = new Jogo();
+			this.frame = new Jogo(0);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,10 +54,25 @@ public class Jogo extends JFrame implements Runnable {
 	/**
 	 * Create the frame.
 	 */
-	public Jogo() {
+	
+	public void acabou(boolean massa){
+		if(massa) JOptionPane.showMessageDialog(null,"Parabains");
+		else JOptionPane.showMessageDialog(null,"Se lascou");
+		try {
+			AL.destroy();
+			Main window = new Main();					
+			window.framePrincipal.setVisible(true);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		dispose();
+	}
+	
+	public Jogo(int fase) {
 		setResizable(false);
 		ArrayList<String> comando = new ArrayList<String>();
-		Apagar jogo = new Apagar(comando);
+		Apagar jogo = new Apagar(comando, fase, this);
 		(new Thread(jogo)).start();
 		
 		addKeyListener(new KeyAdapter() {
@@ -92,6 +112,7 @@ public class Jogo extends JFrame implements Runnable {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				try {
+					AL.destroy();
 					Main window = new Main();					
 					window.framePrincipal.setVisible(true);
 

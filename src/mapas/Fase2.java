@@ -46,7 +46,11 @@ public class Fase2 {
 	private SoundAlter soundAlter;
 	private boolean estaChave;
 	private Scanner in;
+	private ArrayList<String> comando;
 	
+	public Fase2(ArrayList<String> comando){
+		this.comando = comando;
+	}
 	public Fase2(Scanner in){
 		this.in = in;
 		estaChave = false;
@@ -92,6 +96,8 @@ public class Fase2 {
 		hitwall.execute("latido.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource win = new SoundSource();
 		win.execute("open_door.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
+		SoundSource serra = new SoundSource();
+		serra.execute("serrainicial.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource pegouChave = new SoundSource();
 		pegouChave.execute("pegando_chave_novo.wav", 0.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, 1.0f);
 		SoundSource abrirCorrentes = new SoundSource();
@@ -105,23 +111,36 @@ public class Fase2 {
 		ObjectiveSound chave = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaChave().getX(), 0.0f+map.achaChave().getY()-map.achaBoneco().getY(),0.0f+ map.achaChave().getZ(), listenerPos, listenerVel, listenerOri, "key-estante.wav", 5000, 1.0f);
 		objs.add(chave);
 		(new Thread(chave)).start();
-//		ObjectiveSound radio = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, "radio_inter.wav", 0, 0.05f);
+//		System.out.println("X : " + map.achaBoneco().getX() + " - " + map.achaRadio().getX() + " = " + (map.achaBoneco().getX()-map.achaRadio().getX()));
+//		System.out.println("Y : " + map.achaRadio().getY() + " - " + map.achaBoneco().getY() + " = " + (map.achaRadio().getY()-map.achaBoneco().getY()));
+//		ObjectiveSound radio = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, "radio-fase2.wav", 0, 0.05f);
 //		objs.add(radio);
 //		(new Thread(radio)).start();
-		ArrayList<String> topzera = new ArrayList<String>();
-		topzera.add("radio1.wav");
-		topzera.add("radio2.wav");
-		topzera.add("radio3.wav");
-		MultipleObjectSound radios = new MultipleObjectSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, topzera, 0, 0.5f);
-		objs.add(radios);
-		(new Thread(radios)).start();
+//		ArrayList<String> sons = new ArrayList<String>();
+//		sons.add("radio1.wav");
+//		sons.add("radio2.wav");
+//		sons.add("radio3.wav");
+//		MultipleObjectSound radios = new MultipleObjectSound(0.0f+map.achaBoneco().getX()-map.achaRadio().getX(), 0.0f+map.achaRadio().getY()-map.achaBoneco().getY(),0.0f+ map.achaRadio().getZ(), listenerPos, listenerVel, listenerOri, sons, 0, 0.5f);
+//		objs.add(radios);
+//		(new Thread(radios)).start();
 		ObjectiveSound chuva = new ObjectiveSound(0.0f, 0.0f, 20.0f, listenerPos, listenerVel, listenerOri, "rain-02-cut.wav", 0, 0.15f);
 		(new Thread(chuva)).start();
 		map.printaTudo();
 		boolean exit = false;
 //		Scanner in = new Scanner(System.in);
+		String aux = "";
 		while (!exit){
-			String aux = in.nextLine();
+			boolean topzera = true;
+			while(topzera){
+				if(this.comando.size() > 0){
+					topzera = false;
+					System.out.println(this.comando.get(0));
+					aux = this.comando.get(0);
+				}else{
+					System.out.print("");
+				}
+			}
+			//String aux = in.nextLine();
 			System.out.println("\n");
 			switch (aux){ 
 				case "w": 
@@ -180,8 +199,11 @@ public class Fase2 {
 					} else {
 						//refem.setJogando(false);
 						refemPt2.setJogando(false);
-						win.playSound();
 						chuva.setJogando(false);
+						serra.playSound();
+						win.playSound();
+						//radios.setJogando(false);
+						//radio.setJogando(false);
 						exit = !exit;
 						
 						step1.killALData();
@@ -199,6 +221,7 @@ public class Fase2 {
 					break;
 				case "e": exit = !exit;  break;
 			}
+			this.comando.remove(0);
 		}
 //		in.close();
 	}

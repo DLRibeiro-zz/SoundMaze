@@ -106,7 +106,7 @@ public class Fase1 {
 				}
 			}
 //			while(this.comando.size() < 1){}
-			System.out.println("saiu");
+			//System.out.println("saiu");
 //			aux = this.comando.get(0);
 			System.out.println("\n");
 			switch (aux){ 
@@ -125,8 +125,8 @@ public class Fase1 {
 						hitwall.playSound();
 					} else {
 						obj.setJogando(false);
-						win.playSound();
 						obj2.setJogando(false);
+						win.playSound();
 						exit = !exit;
 						
 						step1.killALData();
