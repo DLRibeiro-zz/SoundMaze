@@ -10,6 +10,7 @@ import org.lwjgl.BufferUtils;
 import sound.ObjectiveSound;
 import sound.SoundAlter;
 import sound.SoundSource;
+import sound.TimeSound;
 import utils.Boneco;
 import utils.Fonte;
 import utils.Mapa;
@@ -52,12 +53,25 @@ public class Fase3 {
 	private ArrayList<ObjectiveSound> objs;
 	private SoundAlter soundAlter;
 	private Scanner in;
+	private ArrayList<String> comando;
+	private boolean ganhou = true;
 	
+	public Fase3(ArrayList<String> comando){
+		this.comando = comando;
+	}
 	public Fase3(Scanner in){
 		this.in = in;
 	}
 	public Fase3(){
 		
+	}
+	
+	public boolean getGanhou(){
+		return this.ganhou;
+	}
+	
+	public void setGanhou(boolean ganhou){
+		this.ganhou = ganhou;
 	}
 	
 	public void rodar() throws FileNotFoundException{
@@ -109,6 +123,8 @@ public class Fase3 {
 		ObjectiveSound refemPt2 = null;
 		ObjectiveSound refemPt3 = null;
 		int contador = 1;
+		TimeSound serra = new TimeSound(-10.0f, 0.0f, 0.0f, listenerPos, listenerVel, listenerOri, "serrinha.wav", 5000, 3, 1.0f, this);
+		(new Thread(serra)).start();
 //		ObjectiveSound chave = new ObjectiveSound(0.0f+map.achaBoneco().getX()-map.achaChave().getX(), 0.0f+map.achaChave().getY()-map.achaBoneco().getY(),0.0f+ map.achaChave().getZ(), listenerPos, listenerVel, listenerOri, "key-estante.wav", 5000, 1.0f);
 //		objs.add(chave);
 //		(new Thread(chave)).start();
@@ -120,9 +136,22 @@ public class Fase3 {
 		map.printaTudo();
 		boolean exit = false;
 //		Scanner in = new Scanner(System.in);
+		String aux = "";
 		while (!exit){
-			String aux = in.nextLine();
+			boolean topzera = true;
+			while(topzera){
+				if(!ganhou) break;
+				if(this.comando.size() > 0){
+					topzera = false;
+					System.out.println(this.comando.get(0));
+					aux = this.comando.get(0);
+				}else{
+					System.out.print("");
+				}
+			}
+			//String aux = in.nextLine();
 			System.out.println("\n");
+			if(ganhou){
 			switch (aux){ 
 				case "w": 
 				case "a": 
@@ -198,9 +227,10 @@ public class Fase3 {
 						}
 					} else {
 						//refem.setJogando(false);
+						serra.setJogando(false);
 						refemPt3.setJogando(false);
-						win.playSound();
 						chuva.setJogando(false);
+						win.playSound();
 						exit = !exit;
 						
 						step1.killALData();
@@ -217,6 +247,21 @@ public class Fase3 {
 					map.printaTudo();  
 					break;
 				case "e": exit = !exit;  break;
+			}
+			this.comando.remove(0);
+			}else{
+				serra.setJogando(false);
+				refem.setJogando(false);
+				if(refemPt2 != null) refemPt2.setJogando(false);
+				if(refemPt3 != null) refemPt3.setJogando(false);
+				chuva.setJogando(false);
+				//win.playSound();
+				exit = !exit;
+				
+				step1.killALData();
+				step2.killALData();
+				hitwall.killALData();
+				win.killALData();
 			}
 		}
 //		in.close();

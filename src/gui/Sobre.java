@@ -12,20 +12,28 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
 
 import net.miginfocom.swing.MigLayout;
+import sound.ObjectiveSound;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 
 public class Sobre extends JFrame implements Runnable
 {
-
+	private ObjectiveSound teste;
+	private Thread chuva;
 	/**
 	 * Launch the application.
 	 */
@@ -44,6 +52,25 @@ public class Sobre extends JFrame implements Runnable
 	 * Create the frame.
 	 */
 	public Sobre() {
+		try{
+			AL.create();
+		} catch (LWJGLException le) {
+			le.printStackTrace();
+			return;
+		}
+		AL10.alGetError();
+		
+		//posicao do listener
+		FloatBuffer listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f/*1.0f, 1.0f, 1.0f*/ }).rewind();
+		//velocidade do listener
+		FloatBuffer listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+		/** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
+		FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
+		
+		teste = new ObjectiveSound(0.0f, 0.0f, 20.0f, listenerPos, listenerVel, listenerOri, "sobre-mus.wav", 0, 1.0f);
+		chuva = new Thread(teste);
+		chuva.start();
+		
 		this.setTitle("Fases");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 480, 540);
@@ -79,6 +106,8 @@ public class Sobre extends JFrame implements Runnable
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Main window = new Main();					
 					window.framePrincipal.setVisible(true);
 					dispose();
@@ -96,6 +125,8 @@ public class Sobre extends JFrame implements Runnable
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Main window = new Main();					
 					window.framePrincipal.setVisible(true);
 

@@ -29,6 +29,8 @@ import net.miginfocom.swing.MigLayout;
 import sound.ObjectiveSound;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class Main {
@@ -93,6 +95,12 @@ public class Main {
 		framePrincipal.getContentPane().setForeground(Color.WHITE);
 		framePrincipal.setBounds(100, 100, 480, 540);
 		framePrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		framePrincipal.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				teste.setJogando(false);
+				AL.destroy();
+			}
+		});
 		framePrincipal.setTitle("SoundMaze");
 //		frame.setResizable(false);
 		framePrincipal.repaint();
@@ -129,7 +137,9 @@ public class Main {
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Jogo frame = new Jogo();
+					teste.setJogando(false);
+					AL.destroy();
+					Jogo frame = new Jogo(0);
 					frame.setVisible(true);
 					setInvisible();
 				} catch (Exception e) {
@@ -151,6 +161,8 @@ public class Main {
 		btnFases.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Fases frame = new Fases();
 					frame.setVisible(true);
 					setInvisible();
@@ -165,6 +177,8 @@ public class Main {
 		btnCreditos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Sobre frame = new Sobre();
 					frame.setVisible(true);
 					setInvisible();
@@ -180,13 +194,13 @@ public class Main {
 		
 	}
 	protected void setInvisible(){
-		try {
-			teste.setJogando(false);
-			chuva.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		AL.destroy();
+//		try {
+//			teste.setJogando(false);
+//			chuva.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		AL.destroy();
 		this.framePrincipal.setVisible(false);
 	}
 	

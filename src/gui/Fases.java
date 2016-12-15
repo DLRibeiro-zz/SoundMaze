@@ -10,14 +10,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
 
 import net.miginfocom.swing.MigLayout;
+import sound.ObjectiveSound;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -28,11 +38,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Label;
 
+
+
 public class Fases extends JFrame implements Runnable {
 
 	/**
 	 * Launch the application.
 	 */
+	private ObjectiveSound teste;
+	private Thread chuva;
 
 	public void run() {
 		try {
@@ -48,6 +62,25 @@ public class Fases extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public Fases() {
+		try{
+			AL.create();
+		} catch (LWJGLException le) {
+			le.printStackTrace();
+			return;
+		}
+		AL10.alGetError();
+		
+		//posicao do listener
+		FloatBuffer listenerPos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f/*1.0f, 1.0f, 1.0f*/ }).rewind();
+		//velocidade do listener
+		FloatBuffer listenerVel = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
+		/** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
+		FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
+		
+		teste = new ObjectiveSound(0.0f, 0.0f, 20.0f, listenerPos, listenerVel, listenerOri, "fases-mus.wav", 0, 0.3f);
+		chuva = new Thread(teste);
+		chuva.start();
+		
 		this.setTitle("Fases");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 480, 540);
@@ -69,13 +102,47 @@ public class Fases extends JFrame implements Runnable {
 		label.setForeground(Color.WHITE);
 		getContentPane().add(label, "cell 1 1,alignx center,aligny center");
 
-		JList list = new JList();
+		String[] fases = {"   Escolha sua fase   ","   1   ","   2   ","   3   "};
+		JList<String> list = new JList(fases);
+		list.setForeground(new Color(255,255,255));
 		list.setBackground(new Color(255,255,255,75));
+		System.out.println("oxente: " + list.getSelectedIndex());
+		list.addListSelectionListener(new ListSelectionListener() {
+		 	public void valueChanged(ListSelectionEvent arg0) {
+		 		System.out.println("dota > lol : " + list.getSelectedValue()/*list.getSelectedIndex()*/+"");
+		 		
+		 		if(list.getSelectedIndex() > 0){
+		 		try {
+		 			teste.setJogando(false);
+					AL.destroy();
+					Jogo frame = new Jogo(list.getSelectedIndex());
+					frame.setVisible(true);
+					dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		 		}
+		 	}
+		 });
+//		ListSelectionListener teste = 
+//		list.addListSelectionListener(new ListSelectionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				try {
+//					Main window = new Main();					
+//					window.framePrincipal.setVisible(true);
+//					dispose();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 
 		JButton btnVoltar = new JButton("   Voltar   ");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Main window = new Main();					
 					window.framePrincipal.setVisible(true);
 					dispose();
@@ -94,6 +161,8 @@ public class Fases extends JFrame implements Runnable {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
 				try {
+					teste.setJogando(false);
+					AL.destroy();
 					Main window = new Main();					
 					window.framePrincipal.setVisible(true);
 
